@@ -1,7 +1,7 @@
 module.exports = {
-    preset: 'ts-jest',
-    testEnvironment: 'node',
-    coverageDirectory: 'coverage',
-    collectCoverageFrom: ['src/**/*.ts'],
-    coveragePathIgnorePatterns: ['/node_modules/', '/dist/'],
-  };
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  coverageDirectory: 'coverage',
+  collectCoverageFrom: ['src/**/*.ts'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/dist/']
+};
