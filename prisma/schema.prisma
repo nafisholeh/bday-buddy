@@ -1,0 +1,33 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                    String    @id @default(uuid())
+  firstName            String
+  lastName             String
+  birthday             DateTime
+  timezone             String
+  email                String    @unique
+  lastBirthdayMessageSent DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@index([birthday])
+  @@index([timezone])
+}
+
+model FailedMessage {
+  id        String    @id @default(uuid())
+  userId    String
+  attempt   Int       @default(0)
+  createdAt DateTime  @default(now())
+  nextRetry DateTime?
+  
+  @@index([nextRetry])
+}
