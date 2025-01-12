@@ -28,7 +28,10 @@ export class MessageQueue {
     if (!success) {
       await this.handleFailedMessage(user.id);
     } else {
-      await this.updateLastSentDate(user.id);
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { lastBirthdayMessageSent: new Date() }
+      });
     }
   }
 
@@ -53,9 +56,9 @@ export class MessageQueue {
       });
 
       for (const message of failedMessages) {
-        const user = await this.prisma.user.findUnique({
+        const user = (await this.prisma.user.findUnique({
           where: { id: message.userId }
-        });
+        })) as User;
 
         if (!user) continue;
 
@@ -63,7 +66,10 @@ export class MessageQueue {
         if (success) {
           await this.prisma.$transaction([
             this.prisma.failedMessage.delete({ where: { id: message.id } }),
-            this.updateLastSentDate(user.id)
+            this.prisma.user.update({
+              where: { id: user.id },
+              data: { lastBirthdayMessageSent: new Date() }
+            })
           ]);
         } else if (message.attempt < 3) {
           await this.prisma.failedMessage.update({
@@ -80,12 +86,5 @@ export class MessageQueue {
     } finally {
       this.isProcessing = false;
     }
-  }
-
-  private async updateLastSentDate(userId: string): Promise<void> {
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { lastBirthdayMessageSent: new Date() }
-    });
   }
 }

@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { MessageQueue } from './messageQueue';
 import * as schedule from 'node-schedule';
+import { User } from '../types';
 
 export class BirthdayService {
   private prisma: PrismaClient;
@@ -33,7 +34,7 @@ export class BirthdayService {
   }
 
   private async findUsersWithBirthdayNow(): Promise<User[]> {
-    const users = await this.prisma.user.findMany();
+    const users = (await this.prisma.user.findMany()) as User[];
     return users.filter((user) => {
       const userDateTime = DateTime.now().setZone(user.timezone);
       const birthday = DateTime.fromJSDate(user.birthday).setZone(
