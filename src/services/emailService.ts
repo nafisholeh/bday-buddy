@@ -7,7 +7,7 @@ export class EmailService {
   async sendBirthdayEmail(user: User): Promise<boolean> {
     try {
       const response = await axios.post(
-        `${this.apiUrl}/send`,
+        `${this.apiUrl}/send-email`,
         {
           email: user.email,
           message: `Hey, ${user.firstName} ${user.lastName} it's your birthday`
