@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { CreateUserDTO, UpdateUserDTO } from '../types';
-
-const prisma = new PrismaClient();
+import prisma from '../client';
 
 export class UserController {
   async create(req: Request<{}, {}, CreateUserDTO>, res: Response) {

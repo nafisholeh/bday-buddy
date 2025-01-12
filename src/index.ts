@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { PrismaClient } from '@prisma/client';
+import prisma from './client';
 import { initializeRoutes } from './routes';
 import { BirthdayService } from './services/birthdayService';
 import { MessageQueue } from './services/messageQueue';
@@ -10,7 +10,6 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
-const prisma = new PrismaClient();
 
 // Initialize services
 const emailService = new EmailService();

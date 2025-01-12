@@ -25,6 +25,7 @@
     "@types/node": "^16.x",
     "@types/node-schedule": "^2.x",
     "jest": "^27.x",
+    "jest-mock-extended": "^2.0.4",
     "nodemon": "^2.x",
     "prettier": "^3.4.2",
     "prisma": "^4.x",
