@@ -41,6 +41,18 @@ export class BirthdayService {
     console.log(`Found ${users.length} users with birthdays now`);
 
     for (const user of users) {
+      // Check if there's already a pending failed message for this user
+      const pendingFailedMessage = await this.prisma.failedMessage.findFirst({
+        where: { userId: user.id }
+      });
+
+      if (pendingFailedMessage) {
+        console.log(
+          `Skipping birthday message for user ${user.firstName} ${user.lastName} - has pending retry`
+        );
+        continue;
+      }
+
       console.log(
         `Processing birthday for user: ${user.firstName} ${user.lastName}`
       );
